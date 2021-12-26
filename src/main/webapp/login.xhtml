@@ -1,0 +1,150 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition template="WEB-INF/template/template.xhtml">
+
+	<ui:param name="title" value="EverPLAY - Login" />
+
+	<ui:define name="titulo">Login</ui:define>
+
+	<ui:define name="conteudo">
+
+		<p:idleMonitor timeout="0">
+			<p:ajax event="idle" listener="#{loginBean.processTimeOut}" />
+		</p:idleMonitor>
+
+
+		<style type="text/css">
+.white-button.ui-button.ui-state-default:enabled:hover, .white-button.ui-button.ui-state-default:focus
+	{
+	background-color: #f2f2f2;
+	border-color: #ccc;
+	color: #373a3c;
+	border-color: var(- -input-hover-border-color, #ccc);
+}
+
+.custom-label {
+	font-size: 16px;
+	float: left;
+}
+
+.custom-input {
+	font-size: 16px;
+	width: 100%;
+	box-shadow: 2px 2px lightgray
+}
+
+.custom-div {
+	margin: 5%;
+}
+
+.custom-div2 {
+	margin: 4%;
+}
+
+.custom-button {
+	color: white;
+}
+
+#box-shadow {
+	padding: 10px;
+	box-shadow: 1px 1px 5px 5px #636363;
+}
+#box-shadow2 {
+	padding: 10px;
+	box-shadow: 1px 1px 5px 5px #00306e;
+}
+</style>
+
+		<div class="card" style="text-align: center; margin-left: 5%; margin-right: 5%; ">
+
+			<h:form id="formRegistro"
+				rendered="#{!loginBean.verificarUsuarioLogado()}">
+
+				<p:growl id="growl" showDetail="false" life="10000" />
+
+				<div id="box-shadow" style="background-color: #2a5081; border-radius: 5px;">
+
+					<div class="ui-g" id="box-shadow2" style="background-color: white; margin-left: 10%; margin-right: 10%; border-radius: 5px;">
+
+						<div class="ui-g-12 ui-md-12 ui-lg-6">
+							<p:spacer height="30px" />
+							<h1
+								style="text-align: center; text-shadow: 2px 2px lightgray; text-decoration: underline;">LOGIN</h1>
+							<p:spacer height="30px" />
+							
+							<div class="custom-div">
+								<p:outputLabel for="email" styleClass="custom-label"
+									value="E-mail:" />
+								<p:inputText id="email" styleClass="custom-input"
+									value="#{loginBean.usuario.email}" required="true">
+									<f:validator validatorId="emailValidator" />
+								</p:inputText>
+							</div>
+							
+							<div class="custom-div">
+								<p:outputLabel for="senha" styleClass="custom-label"
+									value="Senha:" />
+								<p:password id="senha" styleClass="custom-input" required="true"
+									value="#{loginBean.usuario.senha}">
+									<f:validator validatorId="senhaValidator" />
+									<f:validateLength minimum="4" maximum="20" />
+								</p:password>
+							</div>
+							
+							<p:spacer height="60px" />
+							
+							<div class="custom-div">
+
+								<p:commandButton id="botaoLogin" value="LOGIN"
+									update="@formRegistro"
+									style="
+									font-size: 18px;
+									 width: 50%; 
+									 height: 40px;									 
+									 box-shadow: 2px 2px 2px 2px darkgray"
+									action="#{loginBean.login()}" ajax="false">
+								</p:commandButton>
+
+							</div>
+
+						</div>
+
+						<div class="ui-g-12 ui-md-12 ui-lg-6">
+						
+							<p:spacer height="30px" />
+							<h1
+								style="text-align: center; text-shadow: 2px 2px lightgray; text-decoration: underline;">
+								QUERO ME CADASTRAR</h1>
+							<h4 style="text-align: center; font-weight: normal; color: black">
+								Em apenas um passo, crie uma conta. É rápido e seguro.</h4>
+
+							<p:spacer height="50px" />
+
+							<div class="custom-div">
+
+								<p:button id="botaoCadastro" value="CADASTRE-SE"
+									style="font-size: 18px; width: 50%; height: 40px; box-shadow: 2px 2px 2px 2px darkgray"
+									ajax="false" outcome="registra_usuario.xhtml">
+								</p:button>
+							</div>
+							
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</h:form>
+			
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>
+
+</html>

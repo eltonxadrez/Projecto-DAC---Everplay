@@ -1,0 +1,144 @@
+
+<ui:composition template="WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:o="http://omnifaces.org/ui"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:param name="title" value="EverPLAY - Categoria" />
+
+	<ui:define name="titulo">Categorias</ui:define>
+
+	<ui:define name="conteudo">
+
+		<style type="text/css">
+.white-button.ui-button.ui-state-default:enabled:hover, .white-button.ui-button.ui-state-default:focus
+	{
+	background-color: #f2f2f2;
+	border-color: #ccc;
+	color: #373a3c;
+	border-color: var(- -input-hover-border-color, #ccc);
+}
+
+.custom-label {
+	font-size: 16px;
+	float: left;
+}
+
+.custom-input {
+	font-size: 16px;
+	width: 100%;
+	box-shadow: 2px 2px lightgray
+}
+
+.custom-div {
+	margin: 5%;
+}
+
+.custom-div2 {
+	margin: 4%;
+}
+
+.custom-button {
+	color: white;
+}
+
+#box-shadow {
+	padding: 10px;
+	box-shadow: 1px 1px 5px 5px #636363;
+}
+
+#box-shadow2 {
+	padding: 10px;
+	box-shadow: 1px 1px 5px 5px #00306e;
+}
+
+.ui-dataview-list .ui-dataview-row {
+	border-bottom: 1px solid #A8A8A8;
+	padding: 25px 10px;
+	border-bottom-color: var(- -input-border-color, #A8A8A8);
+}
+
+.ui-dataview-header {
+	visibility: hidden;
+	display: none;
+}
+
+.logo {
+	width: 40%;
+}
+
+.detail {
+	width: 85%;
+	padding-left: 25px;
+}
+</style>
+
+		<f:metadata>
+			<f:viewParam name="tipo" value="#{categoriaBean.tipo}"
+				converter="tipoConverter"
+				requiredMessage="Não foi especificado o enum">
+			</f:viewParam>
+			<f:viewAction action="#{categoriaBean.atualizar()}" />
+
+		</f:metadata>
+
+		<div class="card"
+			style="text-align: center; margin-left: 5%; margin-right: 5%;">
+			<h:form id="form">
+
+				<div id="box-shadow"
+					style="background-color: #2a5081; border-radius: 5px;">
+					
+					<div style="background: white; ">
+						<p:outputLabel 
+							value=""
+							rendered="#{categoriaBean.checarProdutos()}"
+							style="font-size: 32px" >
+							<br/>NÃO HÁ NENHUM PRODUTO CADASTRADO NESSA CATEGORIA / TIPO<p:spacer height="200px"/>
+							</p:outputLabel>
+						
+						<p:dataView var="produto" value="#{categoriaBean.produtos}"
+							layout="grid" style="font-size: 18px">
+
+							<p:dataViewGridItem columns="4">
+
+								<p:panel style="text-align:center">
+
+									<h:panelGrid columns="1" style="width:100%">
+
+										<h:link outcome="/produto.xhtml">
+											<div>
+												<o:graphicImage value="#{images.get(produto.id)}"
+													style="width: 100%" />
+											</div>
+											<div>
+												<h:outputText value="#{produto.nome}" />
+											</div>
+											<h:outputText style="font-weight: bold; font-size: 22px"
+												value="R$ #{produto.preco}" />
+											<div></div>
+											<f:param name="id" value="#{produto.id}"></f:param>
+										</h:link>
+
+									</h:panelGrid>
+
+								</p:panel>
+
+							</p:dataViewGridItem>
+
+						</p:dataView>
+
+					</div>
+
+				</div>
+
+			</h:form>
+
+		</div>
+
+	</ui:define>
+
+</ui:composition>

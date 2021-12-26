@@ -1,0 +1,504 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<style type="text/css">
+.white-button.ui-button.ui-state-default {
+	background-color: #ffffff;
+	color: #222222;
+	border-color: #d6d6d6;
+	border-color: var(- -input-border-color, #d6d6d6);
+}
+
+.white-button.ui-button.ui-state-default:enabled:hover, .white-button.ui-button.ui-state-default:focus
+	{
+	background-color: #f2f2f2;
+	border-color: #ccc;
+	color: #373a3c;
+	border-color: var(- -input-hover-border-color, #ccc);
+}
+
+.centeredMenuBar.ui-menubar {
+	text-align: center;
+}
+
+.centeredMenuBar .ui-menu-list {
+	display: inline-block;
+	font-size: 18px;
+}
+
+.fa {
+	color: #2a5081;
+}
+
+.h1-submenu {
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.column:hover {
+	background-color: #7bb6df;
+}
+
+.panelgrid {
+	background-color: #adadad;
+}
+
+.containerdiv {
+	float: left;
+	position: relative;
+}
+
+.cornerimage {
+	position: absolute;
+	top: 0;
+	right: 0;
+}
+
+.ui-menuitem-link:hover {
+	background-color: #7bb6df;
+}
+
+.custom-submenu a:hover {
+	background-color: #ffaa54;
+}
+
+#box-shadow3 {
+	box-shadow: 1px 1px 5px 5px #636363;
+}
+</style>
+
+	<h:form id="searchForm">
+
+		<div class="ui-g"
+			style="text-align: center; margin-right: 5%; margin-left: 5%; margin-top: 10px; padding: 0px">
+
+			<div class="ui-g-12 ui-md-12 ui-lg-12"
+				style="text-align: center; margin: 0px; padding: 0px">
+
+				<div class="ui-g" style="text-align: center">
+
+					<div class="ui-g-12 ui-md-12 ui-lg-3">
+						<div class="containerdiv">
+							<a href="#{request.contextPath}/index.xhtml"> <img border="0"
+								src="#{request.contextPath}/resources/img/logo-atras.png"
+								width="200" /> <img class="cornerimage" border="0"
+								src="#{request.contextPath}/resources/img/logo.png" width="200" />
+							</a>
+						</div>
+					</div>
+
+					<div class="ui-g-12 ui-md-12 ui-lg-6"
+						style="text-align: center; padding-top:5.7%; height: auto;">
+
+						<div class="ui-inputgroup" style="text-align: center">
+
+							<p:autoComplete minQueryLength="3" var="produto"
+								itemLabel="#{produto.nome}" itemValue="#{produto}"
+								value="#{autoCompleteView.produtoSelecionado}"
+								converter="#{produtoConverter}"
+								placeholder="O que você procura?" size="46"
+								completeMethod="#{autoCompleteView.completeNome}"
+								style=" height:20px; font-size: 22px; margin-right:0px; ">
+								<p:ajax event="itemSelect" process="@this" immediate="true"></p:ajax>
+								<p:ajax event="change" process="@this" immediate="true"></p:ajax>
+							</p:autoComplete>
+
+							<p:button id="search-button" icon="fa fa-search"
+								styleClass="white-button" outcome="/produto.xhtml"
+								style="height:34px; width:50px; font-size: 16px">
+								<f:param name="id"
+									value="#{autoCompleteView.produtoSelecionado.id}"></f:param>
+							</p:button>
+
+						</div>
+
+					</div>
+
+					<div class="ui-g-12 ui-md-12 ui-lg-3" style="margin-top: 5.7%; height: auto; text-align: center">
+
+						<div class="ui-g" style="height: 30px; text-align: center; float: right;">
+
+							<div class="ui-g-8 ui-md-7 ui-lg-8"
+								style="margin: 0px; padding: 0px; text-align: right; padding-right: 10px; width: auto;">
+
+								<p:commandLink style="font-weight: bold; font-size: 12px"
+									rendered="#{!loginBean.verificarUsuarioLogado()}"
+									action="/login.xhmtl?faces-redirect=true">
+									<i class="fa fa-sign-in fa-2x"></i> LOGIN </p:commandLink>
+									
+								<p:link style="font-weight: bold; font-size: 12px"
+									rendered="#{loginBean.verificarUsuarioLogado()}"
+									outcome="/edita_usuario.xhtml">
+									<f:param name="email" value="#{loginBean.usuarioLogado.email}"></f:param>
+									<i class="fa fa-user-circle-o fa-2x"></i> 
+											#{loginBean.usuarioLogado.email.length() gt 30 ? loginBean.usuarioLogado.email.substring(0,25).concat('...') : loginBean.usuarioLogado.email} 
+										</p:link>
+
+							</div>
+
+							<div class="ui-g-5 ui-md-5 ui-lg-4"
+								style="margin: 0px; padding: 0px; text-align: left; width: auto;">
+
+								<p:commandLink style="font-weight: bold; font-size: 12px"
+									rendered="#{!loginBean.verificarUsuarioLogado()}"
+									action="/registra_usuario.xhtml?faces-redirect=true">
+									<i class="fa fa-user-plus fa-2x"></i> CADASTRE-SE </p:commandLink>
+								<p:commandLink style="font-weight: bold; font-size: 12px"
+									rendered="#{loginBean.verificarUsuarioLogado()}"
+									action="#{loginBean.logout()}">
+									<i class="fa fa-sign-out fa-2x"></i> LOGOUT </p:commandLink>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+			<div class="ui-g-12 ui-md-12 ui-lg-12" id="box-shadow3"
+				style="text-align: center; margin: 0; padding: 0px">
+
+				<p:megaMenu styleClass="centeredMenuBar">
+
+					<p:submenu label="MENU" icon="fa fa-cog"
+						styleClass="custom-submenu"
+						rendered="#{loginBean.verificarUsuarioAdiminstrador()}">
+
+						<p:column>
+
+							<p:submenu label="PRODUTO">
+								<p:menuitem value="Cadastrar Novo Produto"
+									url="#{request.contextPath}/admin/registra_produto.xhtml" />
+								<p:menuitem value="Listar Produtos"
+									url="#{request.contextPath}/admin/lista_produto.xhtml" />
+								<p:menuitem value="Listar Instrumentos"
+									url="#{request.contextPath}/admin/lista_instrumento.xhtml" />
+								<p:menuitem value="Listar Equipamentos"
+									url="#{request.contextPath}/admin/lista_equipamento.xhtml" />
+							</p:submenu>
+							<!-- 						<p:submenu label="ETC"> -->
+							<!-- 							<p:menuitem value="ETC-1" url="#" /> -->
+							<!-- 							<p:menuitem value="ETC-2" url="#" /> -->
+							<!-- 							<p:menuitem value="ETC-3" url="#" /> -->
+							<!-- 						</p:submenu> -->
+						</p:column>
+
+					</p:submenu>
+
+					<p:submenu label="Instrumentos De Corda" icon="pi pi-check">
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-cordas/violao.png" />
+								<f:param name="tipo" value="VIOLAO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">VIOLÃO ELÉTRICO</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-cordas/guitarra.png" />
+								<f:param name="tipo" value="GUITARRA"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">GUITARRA</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-cordas/contrabaixo.png" />
+								<f:param name="tipo" value="BAIXO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">CONTRABAIXO</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-cordas/amplificador-de-guitarra.png" />
+								<f:param name="tipo" value="AMPLIFICADOR_DE_GUITARRA"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">AMPLIFICADOR
+								DE GUITARRA</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-cordas/pedal.png" />
+								<f:param name="tipo" value="PEDAL"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">PEDAL</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-cordas/encordoamentos.png" />
+								<f:param name="tipo" value="ENCORDOAMENTO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">ENCORDOAMENTOS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-cordas/instrumentos-de-cordas.png" />
+								<f:param name="tipo" value="INSTRUMENTOS_DE_CORDAS"></f:param>
+							</h:link>
+						</p:column>
+
+					</p:submenu>
+
+					<p:submenu label="Bateria e Percussão" icon="pi pi-file">
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/bateria-e-percussao/bateria-acustica.png" />
+								<f:param name="tipo" value="BATERIA_ACUSTICA"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">BATERIA
+								ACÚSTICA</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/bateria-e-percussao/bateria-eletronica.png" />
+								<f:param name="tipo" value="BATERIA_ELETRONICA"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">BATERIA
+								ELETRÔNICA</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/bateria-e-percussao/pratos.png" />
+								<f:param name="tipo" value="PRATO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">PRATOS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/bateria-e-percussao/percussao.png" />
+								<f:param name="tipo" value="PERCUSSAO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">PERCUSSÃO</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/bateria-e-percussao/caixas.png" />
+								<f:param name="tipo" value="CAIXA"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">CAIXAS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/bateria-e-percussao/ferragens.png" />
+								<f:param name="tipo" value="FERRAGEM"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">FERRAGENS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/bateria-e-percussao/bateria-e-percussao.png" />
+								<f:param name="tipo" value="BATERIA_E_PERCUSSAO"></f:param>
+							</h:link>
+						</p:column>
+
+					</p:submenu>
+
+					<p:submenu label="Áudio e Tecnologia" icon="pi pi-pencil">
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/audio-e-tecnologia/mixers-e-mesas.png" />
+								<f:param name="tipo" value="MIXER_E_MESA"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">MIXERS E
+								MESAS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/audio-e-tecnologia/caixas-e-monitores.png" />
+								<f:param name="tipo" value="CAIXA_E_MONITOR"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">CAIXAS E
+								MONITORES</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/audio-e-tecnologia/gravacao.png" />
+								<f:param name="tipo" value="GRAVACAO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">GRAVAÇÃO</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/audio-e-tecnologia/fone-de-ouvido.png" />
+								<f:param name="tipo" value="FONE_DE_OUVIDO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">FONE DE
+								OUVIDO</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/audio-e-tecnologia/sem-fio.png" />
+								<f:param name="tipo" value="SEM_FIO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">SEM FIO</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/audio-e-tecnologia/microfones.png" />
+								<f:param name="tipo" value="MICROFONE"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">MICROFONES</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/audio-e-tecnologia/audio-e-tecnologia.png" />
+								<f:param name="tipo" value="AUDIO_E_TECNOLOGIA"></f:param>
+							</h:link>
+						</p:column>
+
+					</p:submenu>
+
+					<p:submenu label="Arcos e Sopros" icon="pi pi-briefcase">
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/arcos-e-sopros/gaitas.png" />
+								<f:param name="tipo" value="GAITA"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">GAITAS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/arcos-e-sopros/saxofone.png" />
+								<f:param name="tipo" value="SAXOFONE"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">SAXOFONE</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/arcos-e-sopros/flautas.png" />
+								<f:param name="tipo" value="FLAUTA"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">FLAUTAS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/arcos-e-sopros/trompete.png" />
+								<f:param name="tipo" value="TROMPETE"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">TROMPETE</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/arcos-e-sopros/violinos.png" />
+								<f:param name="tipo" value="VIOLINO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">VIOLINOS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/arcos-e-sopros/violoncelo.png" />
+								<f:param name="tipo" value="VIOLONCELO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">VIOLONCELO</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/arcos-e-sopros/arcos-e-sopros.png" />
+								<f:param name="tipo" value="ARCOS_E_SOPROS"></f:param>
+							</h:link>
+						</p:column>
+
+					</p:submenu>
+
+					<p:submenu label="Instrumentos De Teclas" icon="pi pi-briefcase">
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-teclas/pianos.png" />
+								<f:param name="tipo" value="PIANO"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">PIANOS</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-teclas/workstation.png" />
+								<f:param name="tipo" value="WORKSTATION"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">WORKSTATION</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-teclas/sintetizadores.png" />
+								<f:param name="tipo" value="SINTETIZADOR"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">SINTETIZADORES</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-teclas/arranjadores.png" />
+								<f:param name="tipo" value="ARRANJADOR"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">ARRANJADORES</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-teclas/amplificadores.png" />
+								<f:param name="tipo" value="AMPLIFICADOR"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">AMPLIFICADORES</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-teclas/acordeon.png" />
+								<f:param name="tipo" value="ACORDEON"></f:param>
+							</h:link>
+							<h1 style="font-size: 12px; font-weight: bold">ACORDEON</h1>
+						</p:column>
+
+						<p:column styleClass="column">
+							<h:link outcome="/categoria.xhtml">
+								<img src="#{request.contextPath}/resources/img/categorias/instrumentos-de-teclas/instrumentos-de-teclas.png" />
+								<f:param name="tipo" value="INSTRUMENTOS_DE_TECLAS"></f:param>
+							</h:link>
+						</p:column>
+
+					</p:submenu>
+
+				</p:megaMenu>
+
+			</div>
+
+		</div>
+
+	</h:form>
+
+</ui:composition>

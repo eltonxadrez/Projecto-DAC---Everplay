@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+<h:head>
+	<title>#{title}</title>
+	<link rel="icon" type="image/x-icon" href="#{request.contextPath}/resources/img/favicon.ico" />
+	<a href="#{request.contextPath}/"> <h:outputStylesheet name="style/estilo.css"/>
+	</a> 
+</h:head>
+
+<h:body style="background: url('#{request.contextPath}/resources/img/pattern4.jpg')">
+
+
+	<header>
+		<ui:include src="/WEB-INF/template/includes/header.xhtml" />
+	</header>
+
+	<main>
+		<ui:insert name="conteudo" ></ui:insert>
+	</main>
+
+	<footer>
+		<ui:include src="/WEB-INF/template/includes/footer.xhtml"></ui:include>
+	</footer>
+
+</h:body>
+
+</html>

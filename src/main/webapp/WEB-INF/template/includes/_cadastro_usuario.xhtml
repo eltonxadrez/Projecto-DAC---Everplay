@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<div class="ui-g-12 ui-md-6 ui-lg-4">
+		<p:spacer height="30px" />
+		<h1
+			style="text-align: center; text-shadow: 2px 2px lightgray; text-decoration: underline;">DADOS
+			PESSOAIS</h1>
+			
+		<div class="custom-div">
+			<p:outputLabel for="nome" styleClass="custom-label"
+				value="Nome Completo:" />
+			<p:inputText id="nome" styleClass="custom-input"
+				value="#{usuarioBean.usuario.nome}" required="true">
+				<f:validateRequired />
+				<p:keyFilter regEx="/[a-zA-ZÀ-ú\\s\\' ]+/" />
+			</p:inputText>
+		</div>
+		
+		<div class="custom-div">
+			<p:outputLabel for="cpf" styleClass="custom-label" value="CPF:" />
+			<p:inputMask id="cpf" size="20" mask="999.999.999-99" required="true"
+				styleClass="custom-input" value="#{usuarioBean.usuario.cpf}" />
+		</div>
+		
+		<div class="custom-div">
+			<p:outputLabel for="date" styleClass="custom-label"
+				value="Data Nascimento:" />
+				
+			<div style="text-align: right !important; margin: 0px;">
+				<ui:include src="/WEB-INF/template/includes/_date.xhtml">
+					<ui:param name="id" value="date" />
+					<ui:param name="value"
+						value="#{usuarioBean.usuario.dataNascimento}" />
+					<ui:param name="label" value="Data Nascimento" />
+					<ui:param name="required" value="#{true}" />
+
+				</ui:include>
+			</div>
+			
+		</div>
+		
+		<div class="custom-div">
+			<p:outputLabel for="telefone" styleClass="custom-label"
+				value="Telefone:" />
+			<p:inputMask id="telefone" styleClass="custom-input" required="true"
+				value="#{usuarioBean.usuario.telefone}" mask="(99) 99999-9999" />
+		</div>
+		
+	</div>
+	<!-- 						ISSO -->
+	<div class="ui-g-12 ui-md-6 ui-lg-4" style="margin-bottom: 30px">
+		<p:spacer height="30px" />
+		<h1
+			style="text-align: center; text-shadow: 2px 2px lightgray; text-decoration: underline;">ENDEREÇO</h1>
+			
+		<div class="ui-g" style="margin: 4%;">
+		
+			<div class="ui-g-12 ui-md-6 ui-lg-3" style="width: 75%">
+				<p:outputLabel for="endereco" styleClass="custom-label"
+					value="Endereço:" />
+				<p:inputText id="endereco" styleClass="custom-input" required="true"
+					value="#{usuarioBean.usuario.endereco.endereco}" />
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-lg-3">
+				<p:outputLabel for="numero" styleClass="custom-label"
+					value="Número:" />
+				<p:inputText id="numero" styleClass="custom-input" required="true"
+					value="#{usuarioBean.usuario.endereco.numero}">
+					<f:validateRequired />
+					<p:keyFilter regEx="/[0-9]/" />
+				</p:inputText>
+			</div>
+			
+		</div>
+		
+		<div class="custom-div">
+			<p:outputLabel for="cep" styleClass="custom-label" value="CEP:" />
+			<p:inputMask id="cep" styleClass="custom-input" required="true"
+				value="#{usuarioBean.usuario.endereco.cep}" mask="99999-999" />
+		</div>
+		
+		<div class="custom-div">
+			<p:outputLabel for="complemento" styleClass="custom-label"
+				value="Complemento:" />
+			<p:inputText id="complemento" styleClass="custom-input"
+				required="true" value="#{usuarioBean.usuario.endereco.complemento}" />
+		</div>
+		
+		<div class="custom-div">
+			<p:outputLabel for="bairro" styleClass="custom-label" value="Bairro:" />
+			<p:inputText id="bairro" styleClass="custom-input" required="true"
+				value="#{usuarioBean.usuario.endereco.bairro}" />
+		</div>
+		
+		<div class="ui-g" style="margin: 4%;">
+		
+			<div class="ui-g-12 ui-md-6 ui-lg-3" style="width: 75%">
+				<p:outputLabel for="cidade" styleClass="custom-label"
+					value="Cidade:" />
+				<p:inputText id="cidade" styleClass="custom-input" required="true"
+					value="#{usuarioBean.usuario.endereco.cidade}" />
+			</div>
+			
+			<div class="ui-g-12 ui-md-6 ui-lg-3">
+				<p:outputLabel for="estado" value="Estado:"
+					styleClass="custom-label" />
+				<p:inputMask id="estado" styleClass="custom-input" required="true"
+					value="#{usuarioBean.usuario.endereco.estado}" mask="aa"
+					style="text-transform: uppercase;" />
+			</div>
+			
+		</div>
+
+	</div>
+	<!-- 						ISSO -->
+	<div class="ui-g-12 ui-lg-4">
+		<p:spacer height="30px" />
+		<h1
+			style="text-align: center; text-shadow: 2px 2px lightgray; text-decoration: underline;">DADOS
+			DE ACESSO À LOJA</h1>
+
+		<div class="custom-div">
+			<p:outputLabel for="email" styleClass="custom-label" value="Email:" />
+			<p:inputText id="email" styleClass="custom-input"
+				required="#{requiredI}" disabled="#{disabledI}"
+				value="#{usuarioBean.usuario.email}">
+				<f:validator validatorId="emailValidator" />
+			</p:inputText>
+		</div>
+		
+		<div class="custom-div">
+			<p:outputLabel for="senha" styleClass="custom-label"
+				rendered="#{!renderedI}" value="Informe a senha:" />
+			<p:password id="senha" styleClass="custom-input"
+				match="senha-confirm" required="#{requiredI}"
+				rendered="#{!renderedI}" value="#{usuarioBean.usuario.senha}">
+				<f:validator validatorId="senhaValidator" />
+
+				<f:validateLength minimum="4" maximum="20" />
+			</p:password>
+		</div>
+		
+		<div class="custom-div">
+			<p:outputLabel for="senha-confirm" styleClass="custom-label"
+				rendered="#{!renderedI}" value="Confirme a senha:" />
+			<p:password id="senha-confirm" styleClass="custom-input"
+				required="#{requiredI}" rendered="#{!renderedI}" />
+		</div>
+
+		<p:spacer height="60px" />
+
+	</div>
+
+</ui:composition>
+
+</html>

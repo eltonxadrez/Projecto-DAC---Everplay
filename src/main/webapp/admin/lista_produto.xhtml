@@ -1,0 +1,91 @@
+
+<ui:composition template="/WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:o="http://omnifaces.org/ui"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:param name="title" value="EverPLAY - Listagem de Produtos" />
+
+	<ui:define name="titulo">Listagem de Produtos</ui:define>
+
+	<ui:define name="conteudo">
+		<style type="text/css">
+.ui-datatable table {
+	table-layout: auto !important;
+}
+
+#box-shadow {
+	box-shadow: 1px 1px 5px 5px #636363;
+}
+
+#box-shadow2 {
+	padding: 10px;
+	box-shadow: 1px 1px 5px 5px #00306e;
+}
+</style>
+		
+		<div class="card" id="box-shadow"
+			style="text-align: center; margin-left: 5%; margin-right: 5%; font-size: 16px">
+			<h:form id="form">
+			
+			<h1>#{produtoBean.produto.nome}</h1>
+
+				<p:dataTable id="tabelaProduto" var="produto"
+					resizableColumns="true" value="#{produtoBean.produtos}"
+					reflow="true" rows="20" rowKey="#{produto.id}" paginator="true"
+					selection="#{produtoBean.produto}" selectionMode="single">
+					<f:facet name="header">
+					<span style="font-size: 22px">
+					Produtos Cadastrados
+					</span>
+					</f:facet>
+					<f:facet name="header"> 
+					<span style="font-weight: normal; font-size: 12px">
+					<br/>
+					dica: os produtos podem ser deletados clicando com o botão direito sobre as linhas
+					</span> 
+					</f:facet>
+					<p:column headerText="Id" sortBy="#{produto.id}">
+						<h:outputText value="#{produto.id}" />
+					</p:column>
+
+					<p:column headerText="Nome" sortBy="#{produto.nome}">
+						<h:outputText value="#{produto.nome}" />
+					</p:column>
+
+					<p:column headerText="Marca" sortBy="#{produto.marca}">
+						<h:outputText value="#{produto.marca}" />
+					</p:column>
+
+					<p:column headerText="Modelo" sortBy="#{produto.modelo}">
+						<h:outputText value="#{produto.modelo}" />
+					</p:column>
+
+					<p:column headerText="Categoria" sortBy="#{produto.categoria}">
+						<h:outputText value="#{produto.categoria}" />
+					</p:column>
+
+					<p:column headerText="Preço" sortBy="#{produto.preco}">
+						<h:outputText value="#{produto.preco}" />
+					</p:column>
+
+					<p:column headerText="Quantidade" sortBy="#{produto.quantidade}">
+						<h:outputText value="#{produto.quantidade}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:contextMenu for="tabelaProduto">
+					<p:menuitem value="Deletar" update="@form"
+						icon="pi pi-times" action="#{produtoBean.deletaProduto}" />
+				</p:contextMenu>
+
+			</h:form>
+			
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>

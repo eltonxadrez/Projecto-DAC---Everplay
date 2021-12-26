@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<ui:composition>
+
+	<p:calendar 
+		id="#{id}" 
+		value="#{value}"
+		mask="99/99/9999"
+		label="#{label}"
+		inputStyle="#{style}"		
+		style="font-size: 16px; text-align: right !important; box-shadow: 0px 7px lightgray"
+		locale="pt_BR" 
+		size="20"
+		showButtonPanel="true"
+		navigator="true"
+		pattern="dd/MM/yyyy"
+		yearRange="-30:+10"
+		required="#{required != null ? required : 'false'}"
+		disabled="#{disabled != null ? disabled : 'false'}"
+		rendered="#{rendered != null ? rendered : 'true'}">
+	</p:calendar>
+	
+</ui:composition>
+
+</html>

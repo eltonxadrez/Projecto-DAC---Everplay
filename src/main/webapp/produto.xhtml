@@ -1,0 +1,144 @@
+<ui:composition template="WEB-INF/template/template.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:jsf="http://xmlns.jcp.org/jsf" xmlns:o="http://omnifaces.org/ui"
+	xmlns:p="http://primefaces.org/ui">
+
+	<f:metadata>
+		<f:viewParam name="id" value="#{produtoBean.produto}"
+			requiredMessage="Não foi especificado o id do produto"
+			required="true" />
+<!-- 		<f:viewAction action="#{produtoBean.init()}"></f:viewAction> -->
+		
+	</f:metadata>
+
+	<ui:param name="title" value="#{produtoBean.produto.nome} - EverPLAY" />
+
+	<ui:define name="titulo">Produto</ui:define>
+
+	<ui:define name="conteudo">
+		<style type="text/css">
+
+#box-shadow5 {
+	padding: 10px;
+	box-shadow: 1px 1px 5px 5px #888888;
+}
+</style>
+
+		<div style="text-align: center; margin-left: 5%; margin-right: 5%;">
+		
+			<h:form id="form">
+
+				<p:growl id="growl" showDetail="false" life="10000" />
+				
+				<div id="box-shadow5"
+					style="background-color: #2a5081; border-radius: 5px; text-align: ce">
+
+					<div class="ui-g"
+						style="text-align: center; background-color: white; margin-top: 1%; margin-left: 10%; margin-right: 10%; border-radius: 5px;">
+
+						<div class="ui-g-12 ui-md-12 ui-lg-12">
+
+							<div class="ui-g">
+
+								<div class="ui-g-12 ui-md-12 ui-lg-6"
+									style="margin-top: 5%; margin-bottom: 5%;">
+
+									<o:graphicImage value="#{images.get(produtoBean.produto.id)}"
+										style="width: 80%" />
+								</div>
+
+								<div class="ui-g-12 ui-md-12 ui-lg-6"
+									style="margin-top: 5%; text-align: left;">
+									
+									<div class="ui-g" style="margin-right: 5%">
+
+										<div class="ui-g-12 ui-md-12 ui-lg-12">
+											<H1 style="font-size: 30px">#{produtoBean.produto.nome}</H1>
+											<H4>#{produtoBean.produto.modelo}</H4>
+										</div>
+
+										<div class="ui-g-12 ui-md-12 ui-lg-12"
+											style="border-bottom-color: black; border-bottom-width: 100%; border-bottom: 1px solid;" />
+											
+										<div class="ui-g-12 ui-md-12 ui-lg-12" style="margin-top: 5%">
+											<H1 style="font-size: 32px">R$
+												#{produtoBean.produto.preco}</H1>
+										</div>
+										
+										<div class="ui-g-12 ui-md-12 ui-lg-12"
+											style="border-bottom-color: black; border-bottom-width: 100%; border-bottom: 1px solid;" />
+										
+											<p:outputLabel rendered="#{produtoBean.produto.quantidade gt 0}" style="font-size: 14px">
+												Aproveite, ainda temos <span style="color: #389ad6">
+													#{produtoBean.produto.quantidade} itens </span> no estoque
+											</p:outputLabel>
+
+										<div class="ui-g-12 ui-md-12 ui-lg-12"
+											style="margin-top: 2%; text-align: center;">
+											
+											<div>
+												<p:button id="botaComprar" value="COMPRAR"
+													disabled="#{!loginBean.verificarUsuarioCliente() or produtoBean.produto.quantidade lt 1}"
+													style=" font-size: 32px; width: 75%; height: 62px; box-shadow: 2px 2px 2px 2px darkgray"
+													outcome="/compra.xhtml" ajax="false">
+													<f:param name="idCompra" value="#{produtoBean.produto.id}" />
+												</p:button>
+											</div>
+											
+											<div style="margin-top: 10px">
+											
+												<div>
+												<p:outputLabel
+													rendered="#{!loginBean.verificarUsuarioCliente()}"
+													style="font-size: 14px">Voce precisa estar logado para comprar</p:outputLabel>
+												</div>
+												
+												<div>
+												<p:outputLabel
+													rendered="#{produtoBean.produto.quantidade lt 1}"
+													style="font-size: 14px">Produto em falta no estoque!</p:outputLabel>
+												</div>
+												
+											</div>
+
+										</div>
+										
+									</div>
+									
+								</div>
+								
+							</div>
+							
+						</div>
+
+						<div class="ui-g-12 ui-md-12 ui-lg-12" style="text-align: center;">
+							<div
+								style="text-align: center; border-top-color: black; border-spacing: 5px; border-top: 1px solid; margin-left: 5%; margin-right: 5%" />
+						</div>
+
+
+						<div class="ui-g-12 ui-md-12 ui-lg-12"
+							style="margin-top: 5%; margin-bottom: 0%; text-align: center;">
+							<h1
+								style="text-align: center; text-shadow: 2px 2px lightgray; text-decoration: underline">DETALHES</h1>
+						</div>
+						
+						<div class="ui-g-12 ui-md-12 ui-lg-12"
+							style="margin-left: 10%; margin-top: 0%; margin-bottom: 5%; text-align: left;">
+							<p style="font-size: 16px">#{produtoBean.produto.descricao}</p>
+						</div>
+						
+					</div>
+					
+				</div>
+				
+			</h:form>
+			
+		</div>
+		
+	</ui:define>
+	
+</ui:composition>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:o="http://omnifaces.org/ui">
+
+
+
+<ui:composition>
+
+	<style type="text/css">
+#box-shadow:hover {
+	box-shadow: 1px 1px 5px 5px #d8d8d8;
+}
+</style>
+
+	<div id="box-shadow" class="ui-g"
+		style="background: white; margin: 5%; text-align: center">
+
+		<div class="ui-g-12 ui-md-12 ui-lg-12"
+			style="width: 80%; margin-left: 10%; margin-right: 10%">
+			<p:link  outcome="/produto.xhtml">
+				<o:graphicImage id="idValue" value="#{images.get(idValue)}"
+					style="width: 100%" />
+					<f:param name="id" value="#{idValue}"></f:param>
+			</p:link>
+		</div>
+
+		<div class="ui-g-12 ui-md-12 ui-lg-12"
+			style="background: white; margin-left: 30%; margin-right: 30%; 
+			height: 5%; text-align: center; border-top: 5px solid; 
+			border-top-color: #7bb6df; border-top-width: 5px" />
+
+		<div class="ui-g-12 ui-md-12 ui-lg-12">
+		<h1>#{produtoBean.produto.nome}</h1>
+			<p:link style="font-size: 16px; text-decoration: none;"
+				outcome="/produto.xhtml"
+				value="#{nomeDoProduto}">
+				<f:param name="id" value="#{idValue}"></f:param>
+			</p:link>
+		</div>
+
+		<div style="" class="ui-g-12 ui-md-12 ui-lg-12">
+			<h1 style="font-weight: bold;">R$: #{precoDoProduto}</h1>
+		</div>
+
+	</div>
+
+</ui:composition>
+
+</html>
